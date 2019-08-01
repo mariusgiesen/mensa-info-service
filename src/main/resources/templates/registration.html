@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IKT Mensa Service Registration</title>
+    <div th:replace="header :: header-css"/>
+</head>
+<body class="p-3 mb-2 bg-light text-dark">
+    <div th:replace="header :: header"/>
+    <form class="form-horizontal" action='' method="POST">
+        <fieldset>
+            <div id="legend">
+                <legend class="">Register</legend>
+            </div>
+            <div class="control-group">
+                <!-- Username -->
+                <label class="control-label"  for="username">Username</label>
+                <div class="controls">
+                    <input type="text" id="username" name="username" placeholder="Username" class="input-xlarge">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- E-mail -->
+                <label class="control-label" for="email">E-mail</label>
+                <div class="controls">
+                    <input type="text" id="email" name="email" placeholder="EMail" class="input-xlarge">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" name="password" placeholder="Password" class="input-xlarge">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Password -->
+                <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+                <div class="controls">
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="Confirm Password" class="input-xlarge">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                    <button class="btn btn-success">Register</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div th:unless="${createdUser == null}">
+        <h4>Created User</h4>
+        <span th:text="${createdUser.getUsername()}"></span>
+        <span th:text="${createdUser.getEmail()}"></span>
+        <span th:text="${createdUser.getAuthorities()}"></span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IKT Mensa Service</title>
+    <div th:replace="header :: header-css"/>
+</head>
+<body class="p-3 mb-2 bg-light text-dark">
+    <div th:replace="header :: header"/>
+    <div class="container-fluid" style="margin-top: 100px">
+        <div>
+            <h1>Mensa Menü</h1>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Gerichte</th>
+                        <th scope="col">Studierende</th>
+                        <th scope="col">Bedienstete</th>
+                        <th scope="col">Gäste</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${meals.empty}">
+                        <td colspan="4"> No Menu Available </td>
+                    </tr>
+                    <tr th:each="meal : ${meals}">
+                        <td><span th:text="${meal.description}"></span></td>
+                        <td><span th:text="${meal.priceStudent}"></span></td>
+                        <td><span th:text="${meal.priceStaff}"></span></td>
+                        <td><span th:text="${meal.priceGuest}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
