@@ -16,6 +16,7 @@
                 <a sec:authorize="isAnonymous()" class="nav-item nav-link" href="/registration">Registration</a>
             </div>
             <div class="nav navbar-nav ml-auto w-100 justify-content-end">
+                <a sec:authorize="isAuthenticated()" href="#" class="nav-item nav-link" sec:authentication="name"></a>
                 <a sec:authorize="isAnonymous()" href="/login" type="button" class="btn btn-success btn-sm" aria-haspopup="true" aria-expanded="false">Login</a>
                 <a sec:authorize="isAuthenticated()" href="/logout" type="button" class="btn btn-danger btn-sm" aria-haspopup="true" aria-expanded="false">Logout</a>
             </div>

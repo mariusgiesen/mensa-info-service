@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Gericht bewerten</title>
@@ -8,7 +8,70 @@
 <body class="p-3 mb-2 bg-light text-dark">
 <div th:replace="header :: header"/>
 <div class="container-fluid" style="margin-top: 100px">
-    <span th:text="${meal.toString()}"></span>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Gericht</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Studierende</th>
+            <th scope="col">Bedienstete</th>
+            <th scope="col">Gäste</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span th:text="${meal.getDescription()}"></span></td>
+            <td><span th:text="${meal.getMealRating().getAverageRating()}"></span></td>
+            <td><span th:text="${meal.priceStudent}"></span></td>
+            <td><span th:text="${meal.priceStaff}"></span></td>
+            <td><span th:text="${meal.priceGuest}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:method="post" th:action="@{|/meal/${meal.getId()}|}">
+        <label for="inlineRadio1">Bewertung</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" required>
+            <label class="form-check-label" for="inlineRadio1">1</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" required>
+            <label class="form-check-label" for="inlineRadio2">2</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3" required>
+            <label class="form-check-label" for="inlineRadio3">3</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="4" required>
+            <label class="form-check-label" for="inlineRadio4">4</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="5" required>
+            <label class="form-check-label" for="inlineRadio5">5</label>
+        </div>
+
+        <div class="form-group">
+            <label for="heading">Überschrift</label>
+            <input type="text" class="form-control" id="heading" name="postHeading">
+            <label for="postComment">Kommentar</label>
+            <textarea class="form-control" id="postComment" name="postCommentText" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary my-1">Submit</button>
+    </form>
+<!--    TODO COMMENTS AUSGEBEN-->
+
+    <div class="list-group">
+        <div class="list-group-item"  th:each="comment : ${comments}">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:text="${comment.getHeading()}"></h5>
+                <small th:text="${comment.getDate()}"></small>
+            </div>
+            <p class="mb-1" th:text="${comment.getText()}"></p>
+            <small th:text="${comment.getUsername()}"></small>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

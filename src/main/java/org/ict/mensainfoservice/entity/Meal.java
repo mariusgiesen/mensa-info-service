@@ -1,5 +1,6 @@
 package org.ict.mensainfoservice.entity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 //@Entity
@@ -12,6 +13,7 @@ public class Meal {
     private String priceStaff;
     private String priceGuest;
     private MealRating mealRating;
+    private ArrayList<Comment> comments;
 
     public Meal(String description, String priceStudent, String priceStaff, String priceGuest){
         this.id = UUID.randomUUID().toString();
@@ -20,6 +22,7 @@ public class Meal {
         this.priceStaff = priceStaff;
         this.priceGuest = priceGuest;
         this.mealRating = new MealRating();
+        this.comments = new ArrayList<>();
     }
 
     @Override
@@ -75,4 +78,16 @@ public class Meal {
     }
 
     public MealRating getMealRating() { return mealRating; }
+
+    public void setMealRating(MealRating mealRating) {
+        this.mealRating = mealRating;
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
 }
