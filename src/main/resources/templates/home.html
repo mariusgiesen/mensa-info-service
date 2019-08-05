@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>IKT Mensa Service</title>
@@ -28,7 +28,10 @@
                         <td colspan="4"> No Menu Available </td>
                     </tr>
                     <tr th:each="meal : ${meals}">
-                        <td><span th:text="${meal.description}"></span></td>
+                        <td>
+                            <span sec:authorize="isAnonymous()" th:text="${meal.getDescription()}"></span>
+                            <a sec:authorize="isAuthenticated()" th:href="@{|/meal/${meal.getId()}|}" th:text="${meal.description}"></a>
+                        </td>
                         <td><span th:text="${meal.getMealRating().getAverageRating()}"></span></td>
                         <td><span th:text="${meal.priceStudent}"></span></td>
                         <td><span th:text="${meal.priceStaff}"></span></td>

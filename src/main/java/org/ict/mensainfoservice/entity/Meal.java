@@ -1,5 +1,7 @@
 package org.ict.mensainfoservice.entity;
 
+import java.util.UUID;
+
 //@Entity
 public class Meal {
 
@@ -12,6 +14,7 @@ public class Meal {
     private MealRating mealRating;
 
     public Meal(String description, String priceStudent, String priceStaff, String priceGuest){
+        this.id = UUID.randomUUID().toString();
         this.description = description;
         this.priceStudent = priceStudent;
         this.priceStaff = priceStaff;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,19 +19,19 @@ public class MensaService {
 
     private static Logger logger = LoggerFactory.getLogger(MensaService.class);
 
-    private List<Meal> meals;
+    private HashMap<String, Meal> meals;
 
     public MensaService() {
         this.meals = obtainMeals();
     }
 
-    public List<Meal> getMeals(){
+    public HashMap<String, Meal> getMeals(){
         return this.meals;
     }
 
-    public List<Meal> obtainMeals(){
+    public HashMap<String, Meal> obtainMeals(){
         try {
-            List<Meal> meals = new ArrayList<>();
+            HashMap<String, Meal> meals = new HashMap<>();
             Document document = Jsoup.connect("https://www.stwdo.de/mensa-co/fh-dortmund/sonnenstrasse/").get();
             Elements select = document.select("div.meal-item");
             for (Element element:select) {
@@ -39,9 +40,10 @@ public class MensaService {
                         element.getElementsByClass("item price student").text(),
                         element.getElementsByClass("item price staff").text(),
                         element.getElementsByClass("item price guest").text());
-                meals.add(meal);
+                meals.put(meal.getId(), meal);
             }
             this.meals = meals;
+            System.out.println(meals);
             return meals;
         } catch (IOException e) {
             logger.error("", e);
