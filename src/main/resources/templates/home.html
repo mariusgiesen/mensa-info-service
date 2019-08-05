@@ -17,6 +17,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col">Gerichte</th>
+                        <th scope="col">Rating</th>
                         <th scope="col">Studierende</th>
                         <th scope="col">Bedienstete</th>
                         <th scope="col">Gäste</th>
@@ -28,6 +29,7 @@
                     </tr>
                     <tr th:each="meal : ${meals}">
                         <td><span th:text="${meal.description}"></span></td>
+                        <td><span th:text="${meal.getMealRating().getAverageRating()}"></span></td>
                         <td><span th:text="${meal.priceStudent}"></span></td>
                         <td><span th:text="${meal.priceStaff}"></span></td>
                         <td><span th:text="${meal.priceGuest}"></span></td>

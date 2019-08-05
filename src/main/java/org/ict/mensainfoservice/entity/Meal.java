@@ -9,12 +9,14 @@ public class Meal {
     private String priceStudent;
     private String priceStaff;
     private String priceGuest;
+    private MealRating mealRating;
 
     public Meal(String description, String priceStudent, String priceStaff, String priceGuest){
         this.description = description;
         this.priceStudent = priceStudent;
         this.priceStaff = priceStaff;
         this.priceGuest = priceGuest;
+        this.mealRating = new MealRating();
     }
 
     @Override
@@ -25,6 +27,7 @@ public class Meal {
                 ", priceStudent='" + priceStudent + '\'' +
                 ", priceStaff='" + priceStaff + '\'' +
                 ", priceGuest='" + priceGuest + '\'' +
+                ", mealRating=" + mealRating +
                 '}';
     }
 
@@ -67,4 +70,6 @@ public class Meal {
     public void setPriceGuest(String priceGuest) {
         this.priceGuest = priceGuest;
     }
+
+    public MealRating getMealRating() { return mealRating; }
 }
