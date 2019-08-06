@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -25,12 +25,10 @@ public class MensaService {
 
     private static Logger logger = LoggerFactory.getLogger(MensaService.class);
 
-    private List<Meal> meals;
-
     public MensaService(MealRepository mealRepository, CommentRepository commentRepository) {
         this.mealRepository = mealRepository;
         this.commentRepository = commentRepository;
-        this.meals = obtainMeals();
+        obtainCurrentMeals();
     }
 
     public List<Comment> getCommentByUsername(String username){
@@ -45,11 +43,15 @@ public class MensaService {
         return mealRepository.save(meal);
     }
 
-    public List<Meal> getMeals(){
-        return this.meals;
+    public List<Meal> getAllMeals(){
+        return mealRepository.findAll();
     }
 
-    public List<Meal> obtainMeals(){
+    public  List<Meal> getCurrentMeals(){
+        return mealRepository.findAllByDate(LocalDate.now());
+    }
+
+    public void obtainCurrentMeals(){
         try {
             List<Meal> meals = new ArrayList<>();
             Document document = Jsoup.connect("https://www.stwdo.de/mensa-co/fh-dortmund/sonnenstrasse/").get();
@@ -60,16 +62,13 @@ public class MensaService {
                         element.getElementsByClass("item price student").text(),
                         element.getElementsByClass("item price staff").text(),
                         element.getElementsByClass("item price guest").text());
-                //meals.put(meal.getId(), meal);
                 meals.add(meal);
             }
-            this.meals = meals;
-            mealRepository.saveAll(meals);
-            System.out.println(meals);
-            return meals;
+            for (Meal meal:meals) {
+                if(!mealRepository.existsMealByDescription(meal.getDescription())) saveMeal(meal);
+            }
         } catch (IOException e) {
             logger.error("", e);
-            return null;
         }
     }
 }

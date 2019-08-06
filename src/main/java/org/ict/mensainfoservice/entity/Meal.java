@@ -1,9 +1,9 @@
 package org.ict.mensainfoservice.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Table(name = "meal")
@@ -16,6 +16,7 @@ public class Meal {
     private String priceStudent;
     private String priceStaff;
     private String priceGuest;
+    private LocalDate date;
 
     @OneToOne(cascade = CascadeType.ALL)
     private MealRating mealRating;
@@ -27,13 +28,13 @@ public class Meal {
     }
 
     public Meal(String description, String priceStudent, String priceStaff, String priceGuest){
-        //this.id = new Random().nextLong();
         this.description = description;
         this.priceStudent = priceStudent;
         this.priceStaff = priceStaff;
         this.priceGuest = priceGuest;
         this.mealRating = new MealRating();
         this.comments = new ArrayList<>();
+        this.date = LocalDate.now();
     }
 
     @Override
@@ -43,9 +44,14 @@ public class Meal {
                 ", priceStudent='" + priceStudent + '\'' +
                 ", priceStaff='" + priceStaff + '\'' +
                 ", priceGuest='" + priceGuest + '\'' +
+                ", date=" + date +
                 ", mealRating=" + mealRating +
                 ", comments=" + comments +
                 '}';
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public Long getId() {

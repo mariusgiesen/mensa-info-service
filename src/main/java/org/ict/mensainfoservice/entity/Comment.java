@@ -22,7 +22,6 @@ public class Comment {
         this.heading = heading;
         this.text = text;
         this.username = username;
-        //this.id = UUID.randomUUID().toString();
         this.date = LocalDateTime.now();
     }
 
