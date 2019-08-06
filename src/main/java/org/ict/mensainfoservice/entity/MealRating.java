@@ -1,12 +1,21 @@
 package org.ict.mensainfoservice.entity;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
+@Table(name = "meal_rating")
 public class MealRating {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private double averageRating;
+
+    @ElementCollection
+    @MapKeyColumn(name="rating")
+    @Column(name="count")
     private Map<Integer, Integer> numOfRatings;
 
     public MealRating(){

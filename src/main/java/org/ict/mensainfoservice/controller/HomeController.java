@@ -16,14 +16,14 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET, path = "/home")
     public ModelAndView home(ModelAndView modelAndView){
         modelAndView.setViewName("home");
-        modelAndView.addObject("meals", mensaService.getMeals().values());
+        modelAndView.addObject("meals", mensaService.getMeals());
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/update")
     public ModelAndView updateMenu(ModelAndView modelAndView){
         modelAndView.setViewName("home");
-        modelAndView.addObject("meals", mensaService.obtainMeals().values());
+        modelAndView.addObject("meals", mensaService.obtainMeals());
         return modelAndView;
     }
 }

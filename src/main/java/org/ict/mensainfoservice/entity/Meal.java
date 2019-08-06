@@ -1,22 +1,33 @@
 package org.ict.mensainfoservice.entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
+import java.util.Random;
 
-//@Entity
+@Entity
+@Table(name = "meal")
 public class Meal {
 
-    //@Id
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String description;
     private String priceStudent;
     private String priceStaff;
     private String priceGuest;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private MealRating mealRating;
-    private ArrayList<Comment> comments;
+
+    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    public Meal(){
+    }
 
     public Meal(String description, String priceStudent, String priceStaff, String priceGuest){
-        this.id = UUID.randomUUID().toString();
+        //this.id = new Random().nextLong();
         this.description = description;
         this.priceStudent = priceStudent;
         this.priceStaff = priceStaff;
@@ -28,21 +39,17 @@ public class Meal {
     @Override
     public String toString() {
         return "Meal{" +
-                "id='" + id + '\'' +
-                ", description='" + description + '\'' +
+                "description='" + description + '\'' +
                 ", priceStudent='" + priceStudent + '\'' +
                 ", priceStaff='" + priceStaff + '\'' +
                 ", priceGuest='" + priceGuest + '\'' +
                 ", mealRating=" + mealRating +
+                ", comments=" + comments +
                 '}';
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -87,7 +94,7 @@ public class Meal {
         this.comments.add(comment);
     }
 
-    public ArrayList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 }

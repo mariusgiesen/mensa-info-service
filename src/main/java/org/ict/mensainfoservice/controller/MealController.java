@@ -20,16 +20,16 @@ public class MealController {
     private MensaService mensaService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/meal/{id}")
-    public ModelAndView getMeal(@PathVariable String id, ModelAndView modelAndView){
+    public ModelAndView getMeal(@PathVariable Long id, ModelAndView modelAndView){
         //TODO Meal aus MealService (aus DB)
         modelAndView.setViewName("meal");
-        modelAndView.addObject("meal", mensaService.getMeals().get(id));
-        modelAndView.addObject("comments", mensaService.getMeals().get(id).getComments());
+        modelAndView.addObject("meal", mensaService.getMealById(id));
+        modelAndView.addObject("comments", mensaService.getMealById(id).getComments());
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/meal/{id}")
-    public ModelAndView postComment(@PathVariable String id,
+    public ModelAndView postComment(@PathVariable Long id,
                                     ModelAndView modelAndView,
                                     @ModelAttribute("postCommentText") String comment,
                                     @ModelAttribute("inlineRadioOptions") String radioValue,
@@ -41,13 +41,17 @@ public class MealController {
         String name = user.getUsername();
 
 
-        Meal meal = mensaService.getMeals().get(id);
+        Meal meal = mensaService.getMealById(id);
 
         if(!comment.isEmpty() && !heading.isEmpty()) {
             Comment newComment = new Comment(heading, comment, name);
             meal.addComment(newComment);
+            mensaService.saveMeal(meal);
         }
-        if(!radioValue.isEmpty()) meal.getMealRating().rate(Integer.parseInt(radioValue));
+        if(!radioValue.isEmpty()) {
+            meal.getMealRating().rate(Integer.parseInt(radioValue));
+            mensaService.saveMeal(meal);
+        }
 
         return getMeal(id, modelAndView);
     }

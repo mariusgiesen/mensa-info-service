@@ -12,6 +12,10 @@
         <div sec:authentication="name"></div>
         <h3>Authenticated user roles:</h3>
         <div sec:authentication="principal.authorities"></div>
+        <h3>Comments:</h3>
+        <div th:each="comment : ${comments}">
+            <span th:text="${comment.getText()}"></span>
+        </div>
     </div>
 </body>
 </html>
