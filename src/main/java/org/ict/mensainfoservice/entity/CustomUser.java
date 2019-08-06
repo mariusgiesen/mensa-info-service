@@ -28,11 +28,13 @@ public class CustomUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public CustomUser(){}
+
     public CustomUser(String username, String password, String email) {
         this.password = password;
         this.username = username;
         this.email = email;
-        this.grantedAuthorities = new HashSet<>(Arrays.asList(new Authority("USER")));
+        this.grantedAuthorities = new HashSet<>(Arrays.asList(new Authority("ROLE_USER")));
         this.favoriteMeals = new ArrayList<>();
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;

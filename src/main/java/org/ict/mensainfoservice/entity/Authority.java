@@ -1,11 +1,9 @@
 package org.ict.mensainfoservice.entity;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Authority implements GrantedAuthority {
@@ -14,6 +12,7 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "role")
     private String role;
 
     public Authority(){}
@@ -23,6 +22,27 @@ public class Authority implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        return this.role;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof SimpleGrantedAuthority) {
+            return role.equals(((SimpleGrantedAuthority) obj).getAuthority());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.role.hashCode();
+    }
+
+    @Override
+    public String toString() {
         return this.role;
     }
 }

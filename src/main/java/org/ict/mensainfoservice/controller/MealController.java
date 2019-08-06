@@ -1,6 +1,7 @@
 package org.ict.mensainfoservice.controller;
 
 import org.ict.mensainfoservice.entity.Comment;
+import org.ict.mensainfoservice.entity.CustomUser;
 import org.ict.mensainfoservice.entity.Meal;
 import org.ict.mensainfoservice.service.MensaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,8 @@ public class MealController {
                                     Authentication authentication){
 
         Object principal = authentication.getPrincipal();
-        User user = (User) principal;
+        CustomUser user = (CustomUser) principal;
         String name = user.getUsername();
-
 
         Meal meal = mensaService.getMealById(id);
 

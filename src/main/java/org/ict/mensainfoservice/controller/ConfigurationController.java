@@ -1,5 +1,6 @@
 package org.ict.mensainfoservice.controller;
 
+import org.ict.mensainfoservice.entity.CustomUser;
 import org.ict.mensainfoservice.service.MensaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,9 +21,7 @@ public class ConfigurationController {
         modelAndView.setViewName("configuration");
 
         Object principal = authentication.getPrincipal();
-        User user = (User) principal;
-        System.out.println(principal.toString());
-        System.out.println("Principal Class: " + principal.getClass());
+        CustomUser user = (CustomUser) principal;
 
         modelAndView.addObject("comments", mensaService.getCommentByUsername(user.getUsername()));
 
