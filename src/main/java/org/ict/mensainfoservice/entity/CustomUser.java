@@ -4,28 +4,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
+@Entity
+@Table(name = "custom_user")
 public class CustomUser implements UserDetails {
 
-    private List<GrantedAuthority> grantedAuthorities;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Authority.class)
+    private Set<Authority> grantedAuthorities;
     private String password;
     private String username;
     private String email;
-    private List<String> favoriteMeals;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Meal.class)
+    private List<Meal> favoriteMeals;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     public CustomUser(String username, String password, String email) {
         this.password = password;
         this.username = username;
         this.email = email;
-        this.grantedAuthorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
+        this.grantedAuthorities = new HashSet<>(Arrays.asList(new Authority("USER")));
         this.favoriteMeals = new ArrayList<>();
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
@@ -33,7 +40,7 @@ public class CustomUser implements UserDetails {
         this.isEnabled = true;
     }
 
-    public List<GrantedAuthority> getGrantedAuthorities() {
+    public Set<Authority> getGrantedAuthorities() {
         return grantedAuthorities;
     }
 
@@ -41,7 +48,7 @@ public class CustomUser implements UserDetails {
         return email;
     }
 
-    public List<String> getFavoriteMeals() {
+    public List<Meal> getFavoriteMeals() {
         return favoriteMeals;
     }
 

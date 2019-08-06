@@ -1,6 +1,7 @@
 package org.ict.mensainfoservice.controller;
 
 import org.ict.mensainfoservice.entity.CustomUser;
+import org.ict.mensainfoservice.service.MensaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ public class RegistrationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MensaService mensaService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/registration")
     public ModelAndView home(ModelAndView modelAndView){
@@ -38,7 +42,7 @@ public class RegistrationController {
         else{
             CustomUser createdUser = new CustomUser(username, passwordEncoder.encode(password), email);
             System.out.println("Created new User: " + createdUser);
-            modelAndView.addObject("createdUser", createdUser);
+            modelAndView.addObject("createdUser", mensaService.saveUser(createdUser));
         }
         return home(modelAndView);
     }

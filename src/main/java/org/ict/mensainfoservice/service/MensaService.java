@@ -1,8 +1,10 @@
 package org.ict.mensainfoservice.service;
 
 import org.ict.mensainfoservice.entity.Comment;
+import org.ict.mensainfoservice.entity.CustomUser;
 import org.ict.mensainfoservice.entity.Meal;
 import org.ict.mensainfoservice.repository.CommentRepository;
+import org.ict.mensainfoservice.repository.CustomUserRepository;
 import org.ict.mensainfoservice.repository.MealRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,13 +24,19 @@ public class MensaService {
 
     private MealRepository mealRepository;
     private CommentRepository commentRepository;
+    private CustomUserRepository customUserRepository;
 
     private static Logger logger = LoggerFactory.getLogger(MensaService.class);
 
-    public MensaService(MealRepository mealRepository, CommentRepository commentRepository) {
+    public MensaService(CustomUserRepository customUserRepository, MealRepository mealRepository, CommentRepository commentRepository) {
         this.mealRepository = mealRepository;
         this.commentRepository = commentRepository;
+        this.customUserRepository = customUserRepository;
         obtainCurrentMeals();
+    }
+
+    public CustomUser saveUser(CustomUser user){
+        return this.customUserRepository.save(user);
     }
 
     public List<Comment> getCommentByUsername(String username){
