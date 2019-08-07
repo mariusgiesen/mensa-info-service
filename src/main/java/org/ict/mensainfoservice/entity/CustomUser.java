@@ -20,6 +20,8 @@ public class CustomUser implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Meal.class)
     private List<Meal> favoriteMeals;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Comment.class)
+    private Set<Comment> comments;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -37,10 +39,19 @@ public class CustomUser implements UserDetails {
         this.email = email;
         this.grantedAuthorities = new HashSet<>(Arrays.asList(new Authority("ROLE_USER")));
         this.favoriteMeals = new ArrayList<>();
+        this.comments = new HashSet<>();
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
         this.isCredentialsNonExpired = true;
         this.isEnabled = true;
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
     }
 
     public Set<Authority> getGrantedAuthorities() {

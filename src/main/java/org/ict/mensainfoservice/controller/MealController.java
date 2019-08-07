@@ -49,7 +49,7 @@ public class MealController {
             mensaService.saveMeal(meal);
         }
         if(!radioValue.isEmpty()) {
-            meal.getMealRating().rate(Integer.parseInt(radioValue), name);
+            meal.getMealRating().rate(Integer.parseInt(radioValue));
             mensaService.saveMeal(meal);
         }
 
