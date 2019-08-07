@@ -18,6 +18,11 @@ public class MealRating {
     @Column(name="count")
     private Map<Integer, Integer> numOfRatings;
 
+    @ElementCollection
+    @MapKeyColumn(name="user_name")
+    @Column(name="user_rating")
+    private Map<String, Integer> userRatings;
+
     public MealRating(){
         this.averageRating = 0.0;
         this.numOfRatings = new HashMap<>();
@@ -28,12 +33,13 @@ public class MealRating {
         this.numOfRatings.put(5,0);
     }
 
-    public void rate(int rating){
+    public void rate(int rating, String username){
         if(rating >= 1 && rating <= 5){
             int number = this.numOfRatings.get(rating);
             number++;
             this.numOfRatings.put(rating, number);
             this.averageRating = calculateAvgRating();
+            this.userRatings.put(username, rating);
         } else
             System.out.println("Error! Rating " + rating + " not allowed!");
     }

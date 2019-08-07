@@ -13,8 +13,14 @@
         <h3>Authenticated user roles:</h3>
         <div sec:authentication="principal.authorities"></div>
         <h3>Comments:</h3>
-        <div th:each="comment : ${comments}">
-            <span th:text="${comment.getText()}"></span>
+        <div class="list-group">
+            <div class="list-group-item"  th:each="comment : ${comments}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1" th:text="${comment.getHeading()}"></h5>
+                    <small th:text="${comment.getDate()}"></small>
+                </div>
+                <p class="mb-1" th:text="${comment.getText()}"></p>
+            </div>
         </div>
     </div>
 </body>
