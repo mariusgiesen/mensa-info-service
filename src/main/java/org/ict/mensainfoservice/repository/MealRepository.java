@@ -11,4 +11,6 @@ import java.util.List;
 public interface MealRepository extends JpaRepository<Meal, Long> {
     Boolean existsMealByDescription(String description);
     List<Meal> findAllByDate(LocalDate date);
+    Meal findMealByDescription(String description);
+    Meal getById(Long id);
 }

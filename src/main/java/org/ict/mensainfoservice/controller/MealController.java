@@ -2,17 +2,19 @@ package org.ict.mensainfoservice.controller;
 
 import org.ict.mensainfoservice.entity.Comment;
 import org.ict.mensainfoservice.entity.CustomUser;
-import org.ict.mensainfoservice.entity.Meal;
+import org.ict.mensainfoservice.entity.MealRating;
 import org.ict.mensainfoservice.service.MensaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MealController {
@@ -22,10 +24,11 @@ public class MealController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/meal/{id}")
     public ModelAndView getMeal(@PathVariable Long id, ModelAndView modelAndView){
-        //TODO Meal aus MealService (aus DB)
         modelAndView.setViewName("meal");
         modelAndView.addObject("meal", mensaService.getMealById(id));
-        modelAndView.addObject("comments", mensaService.getMealById(id).getComments());
+        List<Comment> comments = mensaService.getCommentsByMealId(id);
+        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("usernames", mensaService.getUserNamesForComments(comments));
         return modelAndView;
     }
 
@@ -39,18 +42,14 @@ public class MealController {
 
         Object principal = authentication.getPrincipal();
         CustomUser user = (CustomUser) principal;
-        String name = user.getUsername();
-
-        Meal meal = mensaService.getMealById(id);
 
         if(!comment.isEmpty() && !heading.isEmpty()) {
-            Comment newComment = new Comment(heading, comment, name);
-            meal.addComment(newComment);
-            mensaService.saveMeal(meal);
+            Comment newComment = new Comment(heading, comment, id, user.getId());
+            mensaService.saveComment(newComment);
         }
         if(!radioValue.isEmpty()) {
-            meal.getMealRating().rate(Integer.parseInt(radioValue));
-            mensaService.saveMeal(meal);
+            MealRating newRating = new MealRating(Integer.parseInt(radioValue), id, user.getId());
+            mensaService.saveMealRating(newRating);
         }
 
         return getMeal(id, modelAndView);

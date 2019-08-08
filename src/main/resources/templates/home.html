@@ -32,7 +32,7 @@
                             <span sec:authorize="isAnonymous()" th:text="${meal.getDescription()}"></span>
                             <a sec:authorize="isAuthenticated()" th:href="@{|/meal/${meal.getId()}|}" th:text="${meal.description}"></a>
                         </td>
-                        <td><span th:text="${meal.getMealRating().getAverageRating()}"></span></td>
+                        <td><span th:text="${meal.getAvgRating()}"></span></td>
                         <td><span th:text="${meal.priceStudent}"></span></td>
                         <td><span th:text="${meal.priceStaff}"></span></td>
                         <td><span th:text="${meal.priceGuest}"></span></td>

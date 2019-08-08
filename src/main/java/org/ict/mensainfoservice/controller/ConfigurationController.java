@@ -22,7 +22,7 @@ public class ConfigurationController {
         Object principal = authentication.getPrincipal();
         CustomUser user = (CustomUser) principal;
 
-        modelAndView.addObject("comments", mensaService.getCommentByUsername(user.getUsername()));
+        modelAndView.addObject("comments", mensaService.getCommentsByCustomUserId(user.getId()));
 
         return modelAndView;
     }

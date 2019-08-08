@@ -11,22 +11,30 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
+
+    private Long mealId;
+    private Long customUserId;
+
     private LocalDateTime date;
     private String text;
     private String heading;
 
     public Comment(){}
 
-    public Comment(String heading, String text, String username){
+    public Comment(String heading, String text, Long mealId, Long customUserId){
         this.heading = heading;
         this.text = text;
-        this.username = username;
         this.date = LocalDateTime.now();
+        this.mealId = mealId;
+        this.customUserId = customUserId;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getCustomUserId() {
+        return customUserId;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public LocalDateTime getDate() {
@@ -39,5 +47,17 @@ public class Comment {
 
     public String getHeading() {
         return heading;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", mealId=" + mealId +
+                ", customUserId=" + customUserId +
+                ", date=" + date +
+                ", text='" + text + '\'' +
+                ", heading='" + heading + '\'' +
+                '}';
     }
 }

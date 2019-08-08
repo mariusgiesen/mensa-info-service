@@ -21,7 +21,7 @@
         <tbody>
         <tr>
             <td><span th:text="${meal.getDescription()}"></span></td>
-            <td><span th:text="${meal.getMealRating().getAverageRating()}"></span></td>
+            <td><span th:text="${meal.getAvgRating()}"></span></td>
             <td><span th:text="${meal.priceStudent}"></span></td>
             <td><span th:text="${meal.priceStaff}"></span></td>
             <td><span th:text="${meal.priceGuest}"></span></td>
@@ -63,10 +63,10 @@
         <div class="list-group-item"  th:each="comment : ${comments}">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1" th:text="${comment.getHeading()}"></h5>
-                <small th:text="${comment.getDate()}"></small>
+                <small th:text="${#temporals.format(comment.getDate(), 'dd-MM-yyy HH:mm')}"></small>
             </div>
             <p class="mb-1" th:text="${comment.getText()}"></p>
-            <small th:text="${comment.getUsername()}"></small>
+            <small th:text="${usernames.get(comment.getId())}"></small>
         </div>
     </div>
 

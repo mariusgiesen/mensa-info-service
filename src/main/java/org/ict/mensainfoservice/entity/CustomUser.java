@@ -1,7 +1,6 @@
 package org.ict.mensainfoservice.entity;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -17,11 +16,6 @@ public class CustomUser implements UserDetails {
     private String username;
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Meal.class)
-    private List<Meal> favoriteMeals;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Comment.class)
-    private Set<Comment> comments;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -38,20 +32,14 @@ public class CustomUser implements UserDetails {
         this.username = username;
         this.email = email;
         this.grantedAuthorities = new HashSet<>(Arrays.asList(new Authority("ROLE_USER")));
-        this.favoriteMeals = new ArrayList<>();
-        this.comments = new HashSet<>();
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
         this.isCredentialsNonExpired = true;
         this.isEnabled = true;
     }
 
-    public void addComment(Comment comment){
-        this.comments.add(comment);
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
+    public Long getId() {
+        return id;
     }
 
     public Set<Authority> getGrantedAuthorities() {
@@ -60,10 +48,6 @@ public class CustomUser implements UserDetails {
 
     public String getEmail() {
         return email;
-    }
-
-    public List<Meal> getFavoriteMeals() {
-        return favoriteMeals;
     }
 
     @Override
@@ -108,11 +92,11 @@ public class CustomUser implements UserDetails {
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", favoriteMeals=" + favoriteMeals +
                 ", isAccountNonExpired=" + isAccountNonExpired +
                 ", isAccountNonLocked=" + isAccountNonLocked +
                 ", isCredentialsNonExpired=" + isCredentialsNonExpired +
                 ", isEnabled=" + isEnabled +
+                ", id=" + id +
                 '}';
     }
 }
